@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C971App.CoursePage"
+             Title="CoursePage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit"
+                     IconImageSource="edit_icon.png"
+                     Order="Primary"
+                     Priority="1"
+                     Clicked="EditSaveButton_Clicked"/>
+        <ToolbarItem Text="Add Assessment"
+                     Order="Primary"
+                     Priority="0"
+                     Clicked="ShowAddAssessment_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, *" Padding="10" RowSpacing="15">
+
+        <VerticalStackLayout x:Name="AddAssessment"
+                             IsVisible="False"
+                             Spacing="10"
+                             Padding="10"
+                             Grid.Row="0">
+
+            <Entry x:Name="NewAssessmentName"
+                   Placeholder="Enter test name"/>
+            <DatePicker x:Name="NewAssessmentStart"/>
+            <DatePicker x:Name="NewAssessmentEnd"/>
+            <Picker x:Name="AsmntType"
+                    Title="Select an assessment type">
+                <Picker.Items>
+                    <x:String>Objective</x:String>
+                    <x:String>Performance</x:String>
+                </Picker.Items>
+            </Picker>
+            
+            <Button Text="Add Assessment"
+        Clicked="AddAssessment_Clicked"/>
+            <Button Text="Cancel"
+        Clicked="CancelAddAssessment_Clicked"/>
+        </VerticalStackLayout>
+       
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="10" Padding="15">
+                <Border StrokeShape="RoundRectangle 10"
+                        Padding="15" 
+                        Margin="10" 
+                        BackgroundColor="#F5F5F5"
+                        HorizontalOptions="Center">
+                    <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <Label Text="{Binding CourseName}" FontSize="30" FontAttributes="Bold" HorizontalTextAlignment="Center" IsVisible="{Binding ShowDetails}"/>
+                        <Entry x:Name="CourseName" Text="{Binding CourseName}" IsVisible="{Binding ShowDelete}" FontSize="30" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="{Binding StartDate, StringFormat='{0:d}'}" IsVisible ="{Binding ShowDetails}" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <DatePicker Date="{Binding StartDate}" IsVisible="{Binding ShowDelete}"/>
+                        <Label Text="{Binding EndDate, StringFormat='{0:d}'}" FontAttributes="Bold" HorizontalTextAlignment="Center" IsVisible="{Binding ShowDetails}"/>
+                        <DatePicker Date="{Binding EndDate}" IsVisible="{Binding ShowDelete}"/>
+                    </VerticalStackLayout>              
+                </Border>
+
+                <Border StrokeShape="RoundRectangle 10"
+                        Padding="15"
+                        Margin="10"
+                        BackgroundColor="#F5F5F5"
+                        HorizontalOptions="Fill">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="{Binding CourseStatus}" FontSize="17" IsVisible="{Binding ShowDetails}" FontAttributes="Bold"/>
+                        <Picker x:Name="CourseStatus" SelectedItem="{Binding CourseStatus}" IsVisible="{Binding ShowDelete}" FontAttributes="Bold">
+                            <Picker.Items>
+                                <x:String>Active</x:String>
+                                <x:String>Inactive</x:String>
+                                <x:String>Dropped</x:String>
+                                <x:String>Completed</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <Label Text="Course Instructor" FontSize="17" FontAttributes="Bold" IsVisible="True"/>
+                        <Label Text="{Binding InstructorName}" FontSize="15" IsVisible="{Binding ShowDetails}"/>
+                        <Entry x:Name="NewInstructorName" Text="{Binding InstructorName}" IsVisible="{Binding ShowDelete}"/>
+
+                        <Label Text="{Binding InstructorEmail}" FontSize="15" IsVisible="{Binding ShowDetails}"/>
+                        <Entry x:Name="NewInstructorEmail" Text="{Binding InstructorEmail}" IsVisible="{Binding ShowDelete}"/>
+
+                        <Label Text="{Binding InstructorPhone}" FontSize="15" IsVisible="{Binding ShowDetails}"/>
+                        <Entry x:Name="NewInstructorPhone" Text="{Binding InstructorPhone}" IsVisible="{Binding ShowDelete}" Keyboard="Telephone"/>
+
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto,*">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Course Notes" FontSize="17" VerticalOptions="Start" HorizontalOptions="Start" IsVisible="True" FontAttributes="Bold"/>
+                            <Button Grid.Row="0"
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    ImageSource="share.png"
+                                    BackgroundColor="Transparent"
+                                    WidthRequest="30"
+                                    HeightRequest="30"
+                                    MinimumHeightRequest="0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Clicked="ShareButton_Clicked"/>
+                            <Editor Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding CourseNotes}" Placeholder="Enter class notes" PlaceholderColor="DarkGray" Keyboard="Text" BackgroundColor="LightGray" HeightRequest="100"/>
+                        </Grid>
+                                              
+                    </VerticalStackLayout>                    
+                </Border>
+
+                <Border StrokeShape="RoundRectangle 10"
+                        Padding="15"
+                        Margin="10"
+                        BackgroundColor="#F5F5F5"
+                        HorizontalOptions="Fill">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Objective Assessment" FontAttributes="Bold" FontSize="25"/>
+                        <CollectionView ItemsSource="{Binding OA}" VerticalOptions="Fill">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto" Padding="5">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                            <Label Text="{Binding AsmntName}" IsVisible="{Binding ShowDetails}"/>
+                                            <Entry x:Name="AsmntName" Text="{Binding AsmntName}" IsVisible="{Binding ShowDelete}"/>
+
+                                            <Label Text="{Binding StartDate, StringFormat='{0:d}'}" IsVisible ="{Binding ShowDetails}"/>
+                                            <DatePicker Date="{Binding StartDate}" IsVisible="{Binding ShowDelete}"/>
+
+                                            <Label Text="{Binding EndDate, StringFormat='{0:d}'}" IsVisible ="{Binding ShowDetails}"/>
+                                            <DatePicker Date="{Binding EndDate}" IsVisible="{Binding ShowDelete}"/>
+
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label Text="Start"
+                                                       VerticalOptions="Center"
+                                                       IsVisible="{Binding ShowDelete}"/>
+                                                <Switch IsToggled="{Binding StartNotif}"
+                                                        Scale="0.8"
+                                                        IsVisible="{Binding ShowDelete}"/>
+
+                                                <Label Text="End"
+                                                       VerticalOptions="Center"
+                                                       IsVisible="{Binding ShowDelete}"/>
+                                                <Switch IsToggled="{Binding EndNotif}"
+                                                        Scale="0.8"
+                                                        IsVisible="{Binding ShowDelete}"/>
+
+                                                <ImageButton x:Name="DeleteAssessmentButton"                                            
+                                                             Source="delete.png"
+                                                             BackgroundColor="Transparent"
+                                                             IsVisible="{Binding ShowDelete}"
+                                                             Clicked="DeleteAssessment"
+                                                             WidthRequest="20"
+                                                             HeightRequest="20"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>                    
+                </Border>
+
+                <Border StrokeShape="RoundRectangle 10"
+                        Padding="15"
+                        Margin="10"
+                        BackgroundColor="#F5F5F5"
+                        HorizontalOptions="Fill">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Performance Assessment" FontAttributes="Bold" FontSize="25"/>
+                        <CollectionView ItemsSource="{Binding PA}" VerticalOptions="Fill">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto" Padding="5">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                            <Label Text="{Binding AsmntName}" IsVisible="{Binding ShowDetails}"/>
+                                            <Entry x:Name="AsmntName" Text="{Binding AsmntName}" IsVisible="{Binding ShowDelete}"/>
+
+                                            <Label Text="{Binding StartDate, StringFormat='{0:d}'}" IsVisible ="{Binding ShowDetails}"/>
+                                            <Entry x:Name="StartDate" Text="{Binding StartDate}" IsVisible="{Binding ShowDelete}"/>
+
+                                            <Label Text="{Binding EndDate, StringFormat='{0:d}'}" IsVisible ="{Binding ShowDetails}"/>
+                                            <Entry x:Name="EndDate" Text="{Binding EndDate}" IsVisible="{Binding ShowDelete}"/>
+
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Label Text="Start"
+                                                       VerticalOptions="Center"
+                                                       IsVisible="{Binding ShowDelete}"/>                               
+                                                <Switch IsToggled="{Binding StartNotif}"
+                                                        Scale="0.8"
+                                                        IsVisible="{Binding ShowDelete}"/>
+
+                                                <Label Text="End"
+                                                       VerticalOptions="Center"
+                                                       IsVisible="{Binding ShowDelete}"/>
+                                                <Switch IsToggled="{Binding EndNotif}"
+                                                        Scale="0.8"
+                                                        IsVisible="{Binding ShowDelete}"/>
+
+                                                <ImageButton x:Name="DeleteAssessmentButton"                                            
+                                                             Source="delete.png"
+                                                             BackgroundColor="Transparent"
+                                                             IsVisible="{Binding ShowDelete}"
+                                                             Clicked="DeleteAssessment"
+                                                             WidthRequest="20"
+                                                             HeightRequest="20"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

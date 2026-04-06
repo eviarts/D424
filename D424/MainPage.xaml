@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C971App.MainPage"
+             >
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit"
+                     IconImageSource="edit_icon.png"
+                     Order="Primary"
+                     Priority="2"
+                     Clicked="EditSaveModeOn_Clicked"/>
+        <ToolbarItem Text="Add Term"
+                     Order="Primary"
+                     Priority="1"
+                     Clicked="ShowAddTerm_Clicked"/>
+        <ToolbarItem Text="Add Course"
+                     Order="Primary"
+                     Priority="0"
+                     Clicked="ShowAddCourse_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="10" RowSpacing="15">
+
+        <VerticalStackLayout x:Name="AddTerm"
+                             IsVisible="False"
+                             Spacing="10"
+                             Padding="10"
+                             Grid.Row="0">
+            <Entry x:Name="NewTermTitle"
+                   Placeholder="Enter Term Title"/>
+            <DatePicker x:Name="NewTermStart"/>
+            <DatePicker x:Name="NewTermEnd"/>
+            <Button Text="Add Term"
+                    Clicked="AddTerm_Clicked"/>
+            <Button Text="Cancel"
+                    Clicked="CancelAddTerm_Clicked"/>
+
+        </VerticalStackLayout>
+        
+        <CollectionView ItemsSource="{Binding Terms}"
+                x:Name="TermsCv"
+                ItemsLayout="HorizontalList"
+                SelectionMode="Single"               
+                SelectionChanged="TermsCollectionView_SelectionChanged"
+                Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border 
+                            StrokeShape="RoundRectangle 10"
+                            Padding="15" 
+                            Margin="10" 
+                            BackgroundColor="#F5F5F5">
+                        <Border.WidthRequest>
+                            <OnIdiom Phone="200" Tablet="300"></OnIdiom>
+                        </Border.WidthRequest>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="SelectedStates">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#F5F5F5"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#5AE868"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid>                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>                     
+
+                            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="{Binding TermTitle}" FontSize="30" FontAttributes="Bold" IsVisible="{Binding ShowDates}"/>
+                                <Entry x:Name="TermTitle" Text="{Binding TermTitle}" IsVisible="{Binding ShowDelete}" FontSize="30" FontAttributes="Bold"/>
+                                <Label Text="{Binding StartDate, StringFormat='{0:d}'}" IsVisible="{Binding ShowDates}"/>
+                                <DatePicker Date="{Binding StartDate}" IsVisible="{Binding ShowDelete}"/>
+                                <Label Text="{Binding EndDate, StringFormat='{0:d}'}" IsVisible="{Binding ShowDates}"/>
+                                <DatePicker Date="{Binding EndDate}" IsVisible="{Binding ShowDelete}"/>
+                            </VerticalStackLayout>
+
+                            <ImageButton x:Name="DeleteTermButton" 
+                                  Grid.Column="1"
+                                  Source="delete.png"
+                                  BackgroundColor="Transparent"
+                                  IsVisible="{Binding ShowDelete}"
+                                  WidthRequest="30"
+                                  HeightRequest="30"
+                                  HorizontalOptions="End"
+                                  Clicked="DeleteTerm"/>                           
+
+                        </Grid>                       
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout x:Name="AddCourse"
+                             IsVisible="False"
+                             Spacing="10"
+                             Padding="10"
+                             Grid.Row="2">
+            <Entry x:Name="NewCourseName"
+                   Placeholder="Enter course name"/>
+            <DatePicker x:Name="NewCourseStart"/>
+            <DatePicker x:Name="NewCourseEnd"/>
+            <Picker x:Name="CourseStatusPicker"
+                    Title="Select a status">
+                <Picker.Items>
+                    <x:String>Active</x:String>
+                    <x:String>Inactive</x:String>
+                    <x:String>Dropped</x:String>
+                    <x:String>Completed</x:String>
+                </Picker.Items>
+            </Picker>                      
+            <Entry x:Name="NewInstructorName"
+                   Placeholder="Enter instructor name"/>
+            <Entry x:Name="NewInstructorEmail"
+                   Placeholder="Enter instructor email"/>
+            <Entry x:Name="NewInstructorPhone"
+                   Placeholder="Enter instructor phone"
+                   Keyboard="Telephone"/>
+            <Button Text="Add Course"
+                    Clicked="AddCourse_Clicked"/>
+            <Button Text="Cancel"
+                    Clicked="CancelAddCourse_Clicked"/>
+
+        </VerticalStackLayout>
+
+        <CollectionView x:Name="CoursesCv"
+                SelectionMode="Single"
+                SelectionChanged="OnCourseSelected"
+                Grid.Row="3">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        HorizontalOptions="Fill"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="10" 
+                        Margin="5"
+                        BackgroundColor="#F5F5F5"
+                        >
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="SelectedStates">
+                                <VisualState Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="White"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#5AE868"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>                            
+                            
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding CourseName}" FontSize="17" FontAttributes="Bold"/>
+                                <Label Text="{Binding StartDate, StringFormat='{0:d}'}"/>
+                                <Label Text="{Binding EndDate, StringFormat='{0:d}'}"/>
+                                <Label Text="{Binding CourseStatus}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="5"
+                                                 HorizontalOptions="End"
+                                                 VerticalOptions="Center">
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label Text="Start"
+                                           VerticalOptions="Center"
+                                           IsVisible="{Binding ShowDelete}"/>
+                                    <Switch IsToggled="{Binding StartNotif}"
+                                            Scale="0.8"
+                                            IsVisible="{Binding ShowDelete}"/>
+                                    
+                                    <Label Text="End"
+                                           VerticalOptions="Center"
+                                           IsVisible="{Binding ShowDelete}"/>
+                                    <Switch IsToggled="{Binding EndNotif}"
+                                            Scale="0.8"
+                                            IsVisible="{Binding ShowDelete}"/>
+                                    
+                                    <ImageButton x:Name="DeleteCourseButton"                                            
+                                                 Source="delete.png"
+                                                 BackgroundColor="Transparent"
+                                                 IsVisible="{Binding ShowDelete}"
+                                                 Clicked="DeleteCourse"
+                                                 WidthRequest="20"
+                                                 HeightRequest="20"/>
+                                </HorizontalStackLayout>                              
+                            </VerticalStackLayout>                            
+                        </Grid>                      
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>    
+</ContentPage>
