@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C971App.SearchReport"
+             Title="Search/Report">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem/>
+    </ContentPage.ToolbarItems>
+    <VerticalStackLayout Padding="10">
+        <Entry x:Name='Search'
+               Placeholder="Search for classes or instructors"
+               FontSize="20"
+               PlaceholderColor="DarkGrey"
+               TextChanged="SearchTextChanged"/>
+        <CollectionView x:Name='SearchResults'>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Padding="15">
+                        <Label Text="{Binding CourseName}" FontSize="23"/>
+                        <Label Text="{Binding InstructorName}" FontSize="20"/>
+                        <Label Text="{Binding TermTitle}" FontSize="20"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+    
+</ContentPage>

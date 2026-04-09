@@ -8,16 +8,20 @@
         <ToolbarItem Text="Edit"
                      IconImageSource="edit_icon.png"
                      Order="Primary"
-                     Priority="2"
+                     Priority="3"
                      Clicked="EditSaveModeOn_Clicked"/>
         <ToolbarItem Text="Add Term"
                      Order="Primary"
-                     Priority="1"
+                     Priority="2"
                      Clicked="ShowAddTerm_Clicked"/>
         <ToolbarItem Text="Add Course"
                      Order="Primary"
-                     Priority="0"
+                     Priority="1"
                      Clicked="ShowAddCourse_Clicked"/>
+        <ToolbarItem Text="Search/Report"
+                     Order="Primary"
+                     Priority="0"
+                     Clicked="GoToSearchReport_Clicked"/>
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="10" RowSpacing="15">
@@ -32,9 +36,11 @@
             <DatePicker x:Name="NewTermStart"/>
             <DatePicker x:Name="NewTermEnd"/>
             <Button Text="Add Term"
-                    Clicked="AddTerm_Clicked"/>
+                    Clicked="AddTerm_Clicked"
+                    BackgroundColor="#5AE868"/>
             <Button Text="Cancel"
-                    Clicked="CancelAddTerm_Clicked"/>
+                    Clicked="CancelAddTerm_Clicked"
+                    BackgroundColor="#5AE868"/>
 
         </VerticalStackLayout>
         
@@ -127,9 +133,11 @@
                    Placeholder="Enter instructor phone"
                    Keyboard="Telephone"/>
             <Button Text="Add Course"
-                    Clicked="AddCourse_Clicked"/>
+                    Clicked="AddCourse_Clicked"
+                    BackgroundColor="#5AE868"/>
             <Button Text="Cancel"
-                    Clicked="CancelAddCourse_Clicked"/>
+                    Clicked="CancelAddCourse_Clicked"
+                    BackgroundColor="#5AE868"/>
 
         </VerticalStackLayout>
 

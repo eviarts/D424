@@ -184,6 +184,11 @@ namespace C971App
             await Navigation.PushAsync(new CoursePage(course)); 
         }
 
+        async void GoToSearchReport_Clicked(object sender, EventArgs e)
+        {
+           await Navigation.PushAsync(new SearchReport());
+        }
+
         private async void DeleteTerm(object sender, EventArgs e)
         {
             if (sender is not ImageButton b || b.BindingContext is not Terms term)

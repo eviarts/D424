@@ -25,6 +25,22 @@ namespace C971App.Classes
             _ = DbInitAsync();
         }
 
+        public Task<List<SearchResults>> Search(string query)
+        {
+            query = $"{query}%";
+
+            string sqlQuery = @"
+                    SELECT c.CourseName AS CourseName,
+                           c.InstructorName,
+                           t.TermTitle AS TermTitle
+                    FROM Courses c
+                    JOIN Terms t ON c.TermId = t.TermId
+                    WHERE (c.CourseName IS NOT NULL AND LOWER(c.CourseName) LIKE (?))
+                    OR (c.InstructorName IS NOT NULL AND LOWER(c.InstructorName) LIKE (?))";
+
+            return _database.QueryAsync<SearchResults>(sqlQuery, query, query);
+        }
+
         public async Task DbInitAsync()
         {
             await _database.CreateTableAsync<Terms>();
@@ -94,6 +110,8 @@ namespace C971App.Classes
                 .Where(a => a.CourseId == courseId)
                 .ToListAsync();
         }
+
+        
 
         //Test data
         public static async Task InsertTestData()
