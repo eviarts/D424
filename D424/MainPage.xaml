@@ -37,10 +37,10 @@
             <DatePicker x:Name="NewTermEnd"/>
             <Button Text="Add Term"
                     Clicked="AddTerm_Clicked"
-                    BackgroundColor="#5AE868"/>
+                    BackgroundColor="DarkGreen"/>
             <Button Text="Cancel"
                     Clicked="CancelAddTerm_Clicked"
-                    BackgroundColor="#5AE868"/>
+                    BackgroundColor="DarkGreen"/>
 
         </VerticalStackLayout>
         
@@ -134,10 +134,10 @@
                    Keyboard="Telephone"/>
             <Button Text="Add Course"
                     Clicked="AddCourse_Clicked"
-                    BackgroundColor="#5AE868"/>
+                    BackgroundColor="DarkGreen"/>
             <Button Text="Cancel"
                     Clicked="CancelAddCourse_Clicked"
-                    BackgroundColor="#5AE868"/>
+                    BackgroundColor="DarkGreen"/>
 
         </VerticalStackLayout>
 

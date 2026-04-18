@@ -4,27 +4,103 @@
              x:Class="C971App.SearchReport"
              Title="Search/Report">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem/>
-    </ContentPage.ToolbarItems>
-    <VerticalStackLayout Padding="10">
-        <Entry x:Name='Search'
-               Placeholder="Search for classes or instructors"
-               FontSize="20"
-               PlaceholderColor="DarkGrey"
-               TextChanged="SearchTextChanged"/>
-        <CollectionView x:Name='SearchResults'>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <VerticalStackLayout Padding="15">
-                        <Label Text="{Binding CourseName}" FontSize="23"/>
-                        <Label Text="{Binding InstructorName}" FontSize="20"/>
-                        <Label Text="{Binding TermTitle}" FontSize="20"/>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <Entry x:Name='Search'
+                   Placeholder="Search for classes or instructors"
+                   FontSize="20"
+                   PlaceholderColor="DarkGrey"
+                   TextChanged="SearchTextChanged"/>
+            <CollectionView x:Name="SearchResults"
+                            HeightRequest="250">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Padding="15">
+                            <Label Text="{Binding CourseName}" FontSize="23"/>
+                            <Label Text="{Binding InstructorName}" FontSize="20"/>
+                            <Label Text="{Binding TermTitle}" FontSize="20"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-    </VerticalStackLayout>
-    
+            <!--Report 1: Date Range-->
+
+            <Label x:Name="DateRangeHeader"
+                   Text="> Courses by Date Range"
+                   FontSize="23"
+                   FontAttributes="Bold"
+                   BackgroundColor="#5AE868"
+                   Padding="5"
+                   Margin="0,0,0,5">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ShowDateReport"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <VerticalStackLayout x:Name="DateRangeReport"
+                                 IsVisible="False"
+                                 Spacing="10">
+                <HorizontalStackLayout Spacing="10">
+                    <DatePicker x:Name="StartDate" FontSize="20"/>
+                    <DatePicker x:Name="EndDate" FontSize="20"/>
+                </HorizontalStackLayout>
+
+                <Button Text="Generate Report"
+                        BackgroundColor="DarkGreen"
+                        Clicked="GenerateDateReport"/>
+
+                <CollectionView x:Name="DateReportResults"
+                                HeightRequest="250">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Padding="10">
+                                <Label Text="{Binding CourseName}" FontSize="23"/>
+                                <Label Text="{Binding StartDate, StringFormat='{0:d}'}" FontSize="20"/>
+                                <Label Text="{Binding EndDate, StringFormat='{0:d}'}" FontSize="20"/>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            
+            <!--Report 2: Instructor-->
+
+            <Label x:Name="InstructorHeader"
+                   Text="> Courses by Instructor"
+                   FontSize="23"
+                   FontAttributes="Bold"
+                   BackgroundColor="#5AE868"
+                   Padding="5">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="PLACEHOLDER"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <VerticalStackLayout x:Name="InstructorReport"
+                                 IsVisible="False"
+                                 Spacing="10">
+                <Picker x:Name="InstructorPicker"
+                        Title="Select Instructor"/>
+
+                <Button Text="Generate Report"
+                        BackgroundColor="DarkGreen"
+                        Clicked="PLACEHOLDER"/>
+
+                <CollectionView x:Name="InstructorResults"
+                                HeightRequest="250">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding CourseName}" FontSize="23"/>
+                                <Label Text="{Binding InstructorName}" FontSize="20"/>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>   
 </ContentPage>

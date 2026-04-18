@@ -111,6 +111,13 @@ namespace C971App.Classes
                 .ToListAsync();
         }
 
+        public Task<List<Courses>> CoursesByDate(DateTime start, DateTime end)
+        {
+            return _database.Table<Courses>()
+                .Where(c => c.StartDate >= start && c.EndDate <= end)
+                .ToListAsync();
+        }
+
         
 
         //Test data

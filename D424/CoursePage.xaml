@@ -37,9 +37,11 @@
             </Picker>
             
             <Button Text="Add Assessment"
-        Clicked="AddAssessment_Clicked"/>
+                    Clicked="AddAssessment_Clicked"
+                    BackgroundColor="DarkGreen"/>
             <Button Text="Cancel"
-        Clicked="CancelAddAssessment_Clicked"/>
+                    Clicked="CancelAddAssessment_Clicked"
+                    BackgroundColor="DarkGreen"/>
         </VerticalStackLayout>
        
 
