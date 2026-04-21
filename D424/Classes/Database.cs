@@ -118,6 +118,13 @@ namespace C971App.Classes
                 .ToListAsync();
         }
 
+        public Task<List<Courses>> CoursesByInstructor(string name)
+        {
+            return _database.Table<Courses>()
+                .Where(c => c.InstructorName == name)
+                .ToListAsync();
+        }
+
         
 
         //Test data
@@ -161,8 +168,8 @@ namespace C971App.Classes
             {
                 CourseName = "English 101",
                 CourseStatus = "Active",
-                InstructorName = "Anika Patel",
-                InstructorEmail = "anika.patel@strimeuniversity.edu",
+                InstructorName = "John Smith",
+                InstructorEmail = "john.smith@strimeuniversity.edu",
                 InstructorPhone = "555 - 123 - 4567",
                 StartDate = new DateTime(2026, 1, 1),
                 EndDate = new DateTime(2026, 2, 1),
@@ -187,8 +194,8 @@ namespace C971App.Classes
             {
                 CourseName = "Art 101",
                 CourseStatus = "Active",
-                InstructorName = "Anika Patel",
-                InstructorEmail = "anika.patel@strimeuniversity.edu",
+                InstructorName = "John Smith",
+                InstructorEmail = "john.smith@strimeuniversity.edu",
                 InstructorPhone = "555 - 123 - 4567",
                 StartDate = new DateTime(2026, 1, 1),
                 EndDate = new DateTime(2026, 4, 1),
@@ -226,8 +233,8 @@ namespace C971App.Classes
             {
                 CourseName = "Astronomy 101",
                 CourseStatus = "Inactive",
-                InstructorName = "Anika Patel",
-                InstructorEmail = "anika.patel@strimeuniversity.edu",
+                InstructorName = "John Smith",
+                InstructorEmail = "john.smith@strimeuniversity.edu",
                 InstructorPhone = "555 - 123 - 4567",
                 StartDate = new DateTime(2026, 4, 1),
                 EndDate = new DateTime(2026, 6, 30),

@@ -13,6 +13,25 @@ public partial class SearchReport : ContentPage
         _database = new Database();
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        var courses = await _database.GetAllCourses();
+
+        var names = courses
+            .Select(c => c.InstructorName)
+            .Distinct()
+            .OrderBy(n => n);
+
+        InstructorPicker.Items.Clear();
+
+        foreach (var name in names)
+        {
+            InstructorPicker.Items.Add(name);
+        }
+    }
+
 	private async void SearchTextChanged(object sender, TextChangedEventArgs e)
 	{
 		try
@@ -30,7 +49,7 @@ public partial class SearchReport : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlertAsync("Error: ", ex.Message, "OK");
+            await DisplayAlertAsync("Error: ", ex.Message, "OK");
         }
 	}
 
@@ -48,9 +67,28 @@ public partial class SearchReport : ContentPage
         }
     }
 
+    private async void ShowInstructorReport(object sender, EventArgs e)
+    {
+        InstructorReport.IsVisible = !InstructorReport.IsVisible;
+
+        if (InstructorReport.IsVisible)
+        {
+            InstructorHeader.Text = "^ Courses by Instructor";
+        }
+        else
+        {
+            InstructorHeader.Text = "> Courses by Instructor";
+        }
+    }
+
     private async void GenerateDateReport(object sender, EventArgs e)
     {
         CoursesByDate();
+    }
+
+    private async void GenerateInstructorReport(object sender, EventArgs e)
+    {
+        CoursesByInstructor();
     }
 
     private async void CoursesByDate()
@@ -60,7 +98,7 @@ public partial class SearchReport : ContentPage
 
         if (end < start)
         {
-            DisplayAlertAsync("Incorrect Date Range", "End date must be after start date", "Ok");
+            await DisplayAlertAsync("Incorrect Date Range", "End date must be after start date", "Ok");
             return;
         }
 
@@ -69,10 +107,25 @@ public partial class SearchReport : ContentPage
         if (courses == null || courses.Count == 0)
         {
             DateReportResults.ItemsSource = null;
-            DisplayAlertAsync("No Results", "No courses were found in that date range", "Ok");
+            await DisplayAlertAsync("No Results", "No courses were found in that date range", "Ok");
             return;
         }
 
         DateReportResults.ItemsSource = courses;
+    }
+
+    private async void CoursesByInstructor()
+    {
+        var name = InstructorPicker.SelectedItem as string;
+
+        if (string.IsNullOrEmpty(name))
+        {
+            InstructorResults.ItemsSource = null;
+            await DisplayAlertAsync("Select Instructor", "Please select an instructor to generate a report", "Ok");
+            return;
+        }
+
+        var courses = await _database.CoursesByInstructor(name);
+        InstructorResults.ItemsSource = courses;
     }
 }
