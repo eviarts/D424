@@ -5,6 +5,10 @@
              >
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout"
+                     Order="Primary"
+                     Priority="4"
+                     Clicked="Logout"/>
         <ToolbarItem Text="Edit"
                      IconImageSource="edit_icon.png"
                      Order="Primary"

@@ -337,5 +337,11 @@ namespace C971App
         {
             AddCourse.IsVisible = false;
         }
+
+        private async void Logout(object sender, EventArgs e)
+        {
+            SecureStorage.Remove("auth_token");
+            App.Current.MainPage = new LoginPage();
+        }
     }
 }

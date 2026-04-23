@@ -3,18 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="C971App.LoginPage"
              Title="Login">
-    <VerticalStackLayout>
-        <Entry x:Name="UsernameEntry"
-               Placeholder="Username"/>
-        <Entry x:Name="PasswordEntry"
-               Placeholder="Password"
-               IsPassword="True"/>
+    <VerticalStackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center">
+        <VerticalStackLayout MaximumWidthRequest="300"
+                             WidthRequest="300">
+            <Label Text="Login"
+                   FontAttributes="Bold"
+                   FontSize="35"
+                   HorizontalTextAlignment="Center"/>
 
-        <Button x:Name="Login"
-                Text="Login"
-                BackgroundColor="DarkGreen"
-                Clicked="LoginButton"/>
+            <Entry x:Name="UsernameEntry"
+                   Placeholder="Username"/>
+            
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="Password"
+                   IsPassword="True"/>
 
-        <Label x:Name="ErrorLabel" TextColor="Red"/>
+            <Button x:Name="Login"
+                    Text="Login"
+                    BackgroundColor="DarkGreen"
+                    Clicked="LoginButton"/>
+
+            <Label x:Name="ErrorLabel" TextColor="Red"/>
+        </VerticalStackLayout>
+       
     </VerticalStackLayout>
 </ContentPage>

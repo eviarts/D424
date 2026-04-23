@@ -26,6 +26,11 @@ public partial class LoginPage : ContentPage
 		else
 		{
 			ErrorLabel.Text = "Incorrect username or password";
+
+			UsernameEntry.Text = string.Empty;
+			PasswordEntry.Text = string.Empty;
+
+			UsernameEntry.Focus();
 		}
 	}
 }
