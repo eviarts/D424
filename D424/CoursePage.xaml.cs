@@ -1,6 +1,5 @@
 using C971App.Classes;
 using Microsoft.Maui.Controls;
-using Plugin.LocalNotification;
 using SQLite;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.ApplicationModel;
@@ -35,52 +34,52 @@ public partial class CoursePage : ContentPage
             else if (a.AsmntType == "Performance")
                 _course.PA.Add(a);
 
-            await AssessmentStartNotif(a);
-            await AssessmentEndNotif(a);
+            //await AssessmentStartNotif(a);
+            //await AssessmentEndNotif(a);
         }
 	}
 
-    private async Task AssessmentStartNotif(Assessments assessment)
-    {
-        var startDate = DateTime.Today.AddDays(1);
+    //private async Task AssessmentStartNotif(Assessments assessment)
+    //{
+    //    var startDate = DateTime.Today.AddDays(1);
 
-        if (assessment.StartDate.Date == startDate && assessment.StartNotif)
-        {
-            var notif = new NotificationRequest
-            {
-                NotificationId = assessment.AsmntId + 30,
-                Title = "Assessment Starts Soon",
-                Description = $"{assessment.AsmntName} starts tomorrow",
-                Schedule = new NotificationRequestSchedule
-                {
-                    NotifyTime = DateTime.Now.AddSeconds(5)
-                }
-            };
-            assessment.StartNotif = true;
-            await LocalNotificationCenter.Current.Show(notif);
-        }
-    }
+    //    if (assessment.StartDate.Date == startDate && assessment.StartNotif)
+    //    {
+    //        var notif = new NotificationRequest
+    //        {
+    //            NotificationId = assessment.AsmntId + 30,
+    //            Title = "Assessment Starts Soon",
+    //            Description = $"{assessment.AsmntName} starts tomorrow",
+    //            Schedule = new NotificationRequestSchedule
+    //            {
+    //                NotifyTime = DateTime.Now.AddSeconds(5)
+    //            }
+    //        };
+    //        assessment.StartNotif = true;
+    //        await LocalNotificationCenter.Current.Show(notif);
+    //    }
+    //}
 
-    private async Task AssessmentEndNotif(Assessments assessment)
-    {
-        var endDate = DateTime.Today.AddDays(1);
+    //private async Task AssessmentEndNotif(Assessments assessment)
+    //{
+    //    var endDate = DateTime.Today.AddDays(1);
 
-        if (assessment.EndDate.Date == endDate && assessment.EndNotif)
-        {
-            var notif = new NotificationRequest
-            {
-                NotificationId = assessment.AsmntId + 40,
-                Title = "Assessment Is Due Soon",
-                Description = $"{assessment.AsmntName} is due tomorrow",
-                Schedule = new NotificationRequestSchedule
-                {
-                    NotifyTime = DateTime.Now.AddSeconds(5)
-                }
-            };
-            assessment.EndNotif = true;
-            await LocalNotificationCenter.Current.Show(notif);
-        }
-    }
+    //    if (assessment.EndDate.Date == endDate && assessment.EndNotif)
+    //    {
+    //        var notif = new NotificationRequest
+    //        {
+    //            NotificationId = assessment.AsmntId + 40,
+    //            Title = "Assessment Is Due Soon",
+    //            Description = $"{assessment.AsmntName} is due tomorrow",
+    //            Schedule = new NotificationRequestSchedule
+    //            {
+    //                NotifyTime = DateTime.Now.AddSeconds(5)
+    //            }
+    //        };
+    //        assessment.EndNotif = true;
+    //        await LocalNotificationCenter.Current.Show(notif);
+    //    }
+    //}
 
     bool isEditSaveMode = false;
 
@@ -133,7 +132,7 @@ public partial class CoursePage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error", ex.Message, "Ok");
+            await DisplayAlert("Error", ex.Message, "Ok");
         }
 	}
 
@@ -152,19 +151,19 @@ public partial class CoursePage : ContentPage
         string asmntName = NewAssessmentName.Text?.Trim() ?? "";
         if (string.IsNullOrWhiteSpace(asmntName))
         {
-            await DisplayAlertAsync("Error", "Please enter assessment name", "Ok");
+            await DisplayAlert("Error", "Please enter assessment name", "Ok");
             return;
         }
 
         if (NewAssessmentStart.Date > NewAssessmentEnd.Date)
         {
-            await DisplayAlertAsync("Error", "Start date cannot be later than end date", "Ok");
+            await DisplayAlert("Error", "Start date cannot be later than end date", "Ok");
             return;
         }
 
         if (AsmntType.SelectedItem == null)
         {
-            await DisplayAlertAsync("Error", "Please select assessment type", "Ok");
+            await DisplayAlert("Error", "Please select assessment type", "Ok");
             return;
         }
 
@@ -172,13 +171,13 @@ public partial class CoursePage : ContentPage
 
         if (typeLimit == "Objective" && _course.OA.Count >= 1)
         {
-            await DisplayAlertAsync("Error", "Objective assessment limit reached, only one assessment per type", "Ok");
+            await DisplayAlert("Error", "Objective assessment limit reached, only one assessment per type", "Ok");
             return;
         }
 
         if (typeLimit == "Performance" && _course.PA.Count >= 1)
         {
-            await DisplayAlertAsync("Error", "Performance assessment limit reached, only one assessment per type", "Ok");
+            await DisplayAlert("Error", "Performance assessment limit reached, only one assessment per type", "Ok");
             return;
         }
 
@@ -186,8 +185,8 @@ public partial class CoursePage : ContentPage
         {
             CourseId = _course.CourseId,
             AsmntName = asmntName,
-            StartDate = NewAssessmentStart.Date ?? DateTime.Today,
-            EndDate = NewAssessmentEnd.Date ?? DateTime.Today,
+            StartDate = NewAssessmentStart?.Date ?? DateTime.Today,
+            EndDate = NewAssessmentEnd?.Date ?? DateTime.Today,
             AsmntType = AsmntType.SelectedItem?.ToString() ?? "Objective",
             ShowDelete = isEditSaveMode
         };
@@ -210,7 +209,7 @@ public partial class CoursePage : ContentPage
         if (sender is not ImageButton b || b.BindingContext is not Assessments assessment)
             return;
 
-        bool confirm = await DisplayAlertAsync("Delete Assessment", $"Are you sure you want to delete {assessment.AsmntName}?", "Yes", "No");
+        bool confirm = await DisplayAlert("Delete Assessment", $"Are you sure you want to delete {assessment.AsmntName}?", "Yes", "No");
         if (!confirm) return;
 
         await App.db.DeleteAssessment(assessment);   
@@ -228,7 +227,7 @@ public partial class CoursePage : ContentPage
     {
         if (string.IsNullOrWhiteSpace(_course.CourseNotes))
         {
-            await DisplayAlertAsync("Error", "Course notes are empty, nothing to share", "Ok");
+            await DisplayAlert("Error", "Course notes are empty, nothing to share", "Ok");
             return;
         }
         await Share.RequestAsync(new ShareTextRequest { Text = _course.CourseNotes, Title = "Course Notes" });

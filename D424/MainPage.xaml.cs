@@ -1,7 +1,6 @@
 ﻿using C971App.Classes;
 using System.Collections.ObjectModel;
 using SQLite;
-using Plugin.LocalNotification;
 
 namespace C971App
 {
@@ -16,7 +15,7 @@ namespace C971App
             InitializeComponent();
             BindingContext = this;
 
-            NotifPermission();
+            //NotifPermission();
         }
 
         protected override async void OnAppearing()
@@ -39,60 +38,60 @@ namespace C971App
 
             var courseList = await App.db.GetAllCourses();
 
-            foreach (var courses in courseList)
-            {
-                await CourseStartNotif(courses);
-                await CourseEndNotif(courses);
-            }
+            //foreach (var courses in courseList)
+            //{
+            //    await CourseStartNotif(courses);
+            //    await CourseEndNotif(courses);
+            //}
         }
 
-        private async void NotifPermission()
-        {
-            if (!await LocalNotificationCenter.Current.AreNotificationsEnabled())
-            {
-                await LocalNotificationCenter.Current.RequestNotificationPermission();
-            }
-        }
+        //private async void NotifPermission()
+        //{
+        //    if (!await LocalNotificationCenter.Current.AreNotificationsEnabled())
+        //    {
+        //        await LocalNotificationCenter.Current.RequestNotificationPermission();
+        //    }
+        //}
 
-        private async Task CourseStartNotif(Courses course)
-        {
-            var startDate = DateTime.Today.AddDays(1);
+        //private async Task CourseStartNotif(Courses course)
+        //{
+        //    var startDate = DateTime.Today.AddDays(1);
 
-            if (course.StartDate.Date == startDate && course.StartNotif)
-            {
-                var notif = new NotificationRequest
-                {
-                    NotificationId = course.CourseId + 10,
-                    Title = "Course Begins Soon",
-                    Description = $"{course.CourseName} begins tomorrow",
-                    Schedule = new NotificationRequestSchedule
-                    {
-                        NotifyTime = DateTime.Now.AddSeconds(5)
-                    }
-                };
-                await LocalNotificationCenter.Current.Show(notif);
-            }
-        }
+        //    if (course.StartDate.Date == startDate && course.StartNotif)
+        //    {
+        //        var notif = new NotificationRequest
+        //        {
+        //            NotificationId = course.CourseId + 10,
+        //            Title = "Course Begins Soon",
+        //            Description = $"{course.CourseName} begins tomorrow",
+        //            Schedule = new NotificationRequestSchedule
+        //            {
+        //                NotifyTime = DateTime.Now.AddSeconds(5)
+        //            }
+        //        };
+        //        await LocalNotificationCenter.Current.Show(notif);
+        //    }
+        //}
 
-        private async Task CourseEndNotif(Courses course)
-        {
-            var endDate = DateTime.Today.AddDays(1);
+        //private async Task CourseEndNotif(Courses course)
+        //{
+        //    var endDate = DateTime.Today.AddDays(1);
 
-            if (course.EndDate.Date == endDate && course.EndNotif)
-            {
-                var notif = new NotificationRequest
-                {
-                    NotificationId = course.CourseId + 20,
-                    Title = "Course Ends Soon",
-                    Description = $"{course.CourseName} ends tomorrow",
-                    Schedule = new NotificationRequestSchedule
-                    {
-                        NotifyTime = DateTime.Now.AddSeconds(5)
-                    }
-                };
-                await LocalNotificationCenter.Current.Show(notif);
-            }
-        }        
+        //    if (course.EndDate.Date == endDate && course.EndNotif)
+        //    {
+        //        var notif = new NotificationRequest
+        //        {
+        //            NotificationId = course.CourseId + 20,
+        //            Title = "Course Ends Soon",
+        //            Description = $"{course.CourseName} ends tomorrow",
+        //            Schedule = new NotificationRequestSchedule
+        //            {
+        //                NotifyTime = DateTime.Now.AddSeconds(5)
+        //            }
+        //        };
+        //        await LocalNotificationCenter.Current.Show(notif);
+        //    }
+        //}        
 
         async void TermsCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -118,7 +117,7 @@ namespace C971App
             }
             catch (Exception ex)
             {
-                await DisplayAlertAsync("Error", ex.Message, "Ok");
+                await DisplayAlert("Error", ex.Message, "Ok");
             }
         }
 
@@ -172,7 +171,7 @@ namespace C971App
             }
             catch (Exception ex)
             {
-                await DisplayAlertAsync("Error", ex.Message, "Ok");
+                await DisplayAlert("Error", ex.Message, "Ok");
             }            
         }               
 
@@ -194,7 +193,7 @@ namespace C971App
             if (sender is not ImageButton b || b.BindingContext is not Terms term)
                 return;
 
-            bool confirm = await DisplayAlertAsync("Delete Term", $"Are you sure you want to delete '{term.TermTitle}'?", "Yes", "No");
+            bool confirm = await DisplayAlert("Delete Term", $"Are you sure you want to delete '{term.TermTitle}'?", "Yes", "No");
             if (!confirm) return;
 
             if (SelectedTerm == term)
@@ -211,7 +210,7 @@ namespace C971App
             if (sender is not ImageButton b || b.BindingContext is not Courses course)
                 return;
 
-            bool confirm = await DisplayAlertAsync("Delete Course", $"Are you sure you want to delete '{course.CourseName}'?", "Yes", "No");
+            bool confirm = await DisplayAlert("Delete Course", $"Are you sure you want to delete '{course.CourseName}'?", "Yes", "No");
             if (!confirm) return;
 
             await App.db.DeleteCourseAsync(course);
@@ -224,21 +223,21 @@ namespace C971App
 
             if (string.IsNullOrWhiteSpace(termTitle))
             {
-                await DisplayAlertAsync("Error", "Please enter term title", "Ok");
+                await DisplayAlert("Error", "Please enter term title", "Ok");
                 return;
             }
 
             if (NewTermStart.Date > NewTermEnd.Date)
             {
-                await DisplayAlertAsync("Error", "Start date cannot be later than end date", "Ok");
+                await DisplayAlert("Error", "Start date cannot be later than end date", "Ok");
                 return;
             }
 
             var newTerm = new Terms
             {
                 TermTitle = termTitle,
-                StartDate = NewTermStart.Date.Value,
-                EndDate = NewTermEnd.Date.Value,
+                StartDate = NewTermStart.Date,
+                EndDate = NewTermEnd.Date,
                 ShowDelete = isEditMode
             };
 
@@ -265,7 +264,7 @@ namespace C971App
         {
             if (SelectedTerm == null)
             {
-                await DisplayAlertAsync("Error", "Please choose a term to add the course to", "Ok");
+                await DisplayAlert("Error", "Please choose a term to add the course to", "Ok");
                 return;
             }
 
@@ -276,32 +275,32 @@ namespace C971App
         {
             if (SelectedTerm == null)
             {
-                await DisplayAlertAsync("Error", "Term not selected, please select a term", "Ok");
+                await DisplayAlert("Error", "Term not selected, please select a term", "Ok");
                 return;
             }
 
             string courseName = NewCourseName.Text?.Trim() ?? "";
             if (string.IsNullOrWhiteSpace(courseName))
             {
-                await DisplayAlertAsync("Error", "Please enter course name", "Ok");
+                await DisplayAlert("Error", "Please enter course name", "Ok");
                 return;
             }
 
             if (NewCourseStart.Date > NewCourseEnd.Date)
             {
-                await DisplayAlertAsync("Error", "Start date cannot be later than end date", "Ok");
+                await DisplayAlert("Error", "Start date cannot be later than end date", "Ok");
                 return;
             }
 
             if (CourseStatusPicker.SelectedItem == null)
             {
-                await DisplayAlertAsync("Error", "Please select a course status", "Ok");
+                await DisplayAlert("Error", "Please select a course status", "Ok");
                 return;
             }
 
             if (NewInstructorName == null || NewInstructorEmail == null || NewInstructorPhone == null)
             {
-                await DisplayAlertAsync("Error", "Instructor fields cannot be empty", "Ok");
+                await DisplayAlert("Error", "Instructor fields cannot be empty", "Ok");
                 return;
             }
 
@@ -313,8 +312,8 @@ namespace C971App
                 InstructorName = NewInstructorName.Text ?? "",
                 InstructorEmail = NewInstructorEmail.Text ?? "",
                 InstructorPhone = NewInstructorPhone.Text ?? "",
-                StartDate = NewCourseStart.Date ?? DateTime.Today,
-                EndDate = NewCourseEnd.Date ?? DateTime.Today,
+                StartDate = NewCourseStart?.Date ?? DateTime.Today,
+                EndDate = NewCourseEnd?.Date ?? DateTime.Today,
                 ShowDelete = isEditMode
             };
 

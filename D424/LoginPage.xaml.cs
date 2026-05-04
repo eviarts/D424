@@ -14,7 +14,7 @@ public partial class LoginPage : ContentPage
 
 		if (username == null || password == null)
 		{
-			await DisplayAlertAsync("Error", "Please enter a username and password", "Ok");
+			await DisplayAlert("Error", "Please enter a username and password", "Ok");
 			return;
 		}
 

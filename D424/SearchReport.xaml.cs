@@ -49,7 +49,7 @@ public partial class SearchReport : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error: ", ex.Message, "OK");
+            await DisplayAlert("Error: ", ex.Message, "OK");
         }
 	}
 
@@ -93,12 +93,12 @@ public partial class SearchReport : ContentPage
 
     private async void CoursesByDate()
     {
-        var start = StartDate.Date ?? DateTime.Today;
-        var end = EndDate.Date ?? DateTime.Today;
+        var start = StartDate?.Date ?? DateTime.Today;
+        var end = EndDate?.Date ?? DateTime.Today;
 
         if (end < start)
         {
-            await DisplayAlertAsync("Incorrect Date Range", "End date must be after start date", "Ok");
+            await DisplayAlert("Incorrect Date Range", "End date must be after start date", "Ok");
             return;
         }
 
@@ -107,7 +107,7 @@ public partial class SearchReport : ContentPage
         if (courses == null || courses.Count == 0)
         {
             DateReportResults.ItemsSource = null;
-            await DisplayAlertAsync("No Results", "No courses were found in that date range", "Ok");
+            await DisplayAlert("No Results", "No courses were found in that date range", "Ok");
             return;
         }
 
@@ -121,7 +121,7 @@ public partial class SearchReport : ContentPage
         if (string.IsNullOrEmpty(name))
         {
             InstructorResults.ItemsSource = null;
-            await DisplayAlertAsync("Select Instructor", "Please select an instructor to generate a report", "Ok");
+            await DisplayAlert("Select Instructor", "Please select an instructor to generate a report", "Ok");
             return;
         }
 
