@@ -1,4 +1,4 @@
-﻿namespace C971App
+﻿namespace D424
 {
     public partial class AppShell : Shell
     {

@@ -5,7 +5,7 @@ using System.IO;
 using SQLite;
 
 
-namespace C971App.Classes
+namespace D424.Classes
 {
     public class Database
     {
@@ -23,6 +23,16 @@ namespace C971App.Classes
 
             _database = new SQLiteAsyncConnection(dbPath);
             _ = DbInitAsync();
+        }
+
+        public Database(string dbPath)
+        {
+            _database = new SQLiteAsyncConnection(dbPath);
+        }
+
+        public Task TestInitAsync()
+        {
+            return DbInitAsync();
         }
 
         public Task<List<SearchResults>> Search(string query)

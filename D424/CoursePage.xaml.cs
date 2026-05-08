@@ -1,10 +1,10 @@
-using C971App.Classes;
+using D424.Classes;
 using Microsoft.Maui.Controls;
 using SQLite;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.ApplicationModel;
 
-namespace C971App;
+namespace D424;
 
 public partial class CoursePage : ContentPage
 {

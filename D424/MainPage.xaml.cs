@@ -1,8 +1,8 @@
-﻿using C971App.Classes;
+﻿using D424.Classes;
 using System.Collections.ObjectModel;
 using SQLite;
 
-namespace C971App
+namespace D424
 {
     public partial class MainPage : ContentPage
     {

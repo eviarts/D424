@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SQLite;
-using C971App.Classes;
+using D424.Classes;
 
-namespace C971App
+namespace D424
 {
     public partial class App : Application
     {
