@@ -126,6 +126,12 @@ public partial class CoursePage : ContentPage
 
                 _course.RefreshAll();
 
+                OaCv.ItemsSource = null;
+                OaCv.ItemsSource = _course.OA;
+
+                PaCv.ItemsSource = null;
+                PaCv.ItemsSource = _course.PA;
+
                 tbi.Text = "Edit";
                 tbi.IconImageSource = "edit_icon.png";
             }

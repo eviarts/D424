@@ -113,7 +113,7 @@
                         HorizontalOptions="Fill">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Objective Assessment" FontAttributes="Bold" FontSize="25"/>
-                        <CollectionView ItemsSource="{Binding OA}" VerticalOptions="Fill">
+                        <CollectionView x:Name="OaCv" ItemsSource="{Binding OA}" VerticalOptions="Fill">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto" Padding="5">
@@ -165,7 +165,7 @@
                         HorizontalOptions="Fill">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="Performance Assessment" FontAttributes="Bold" FontSize="25"/>
-                        <CollectionView ItemsSource="{Binding PA}" VerticalOptions="Fill">
+                        <CollectionView x:Name="PaCv" ItemsSource="{Binding PA}" VerticalOptions="Fill">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnDefinitions="Auto" Padding="5">

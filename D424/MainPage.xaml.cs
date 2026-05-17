@@ -163,7 +163,13 @@ namespace D424
                         {
                             await App.db.SaveCourseAsync(course);
                         }
-                    }                    
+
+                        CoursesCv.ItemsSource = null;
+                        CoursesCv.ItemsSource = SelectedTerm.Courses;
+                    }
+
+                    TermsCv.ItemsSource = null;
+                    TermsCv.ItemsSource = Terms;
 
                     tbi.Text = "Edit";
                     tbi.IconImageSource = "edit_icon.png";
