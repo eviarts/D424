@@ -7,6 +7,43 @@
                          HorizontalOptions="Center">
         <VerticalStackLayout MaximumWidthRequest="300"
                              WidthRequest="300">
+
+            <Border x:Name="CreateAccountBorder"
+                    IsVisible="False"
+                    Stroke="DarkGreen"
+                    StrokeThickness="1"
+                    Padding="20"
+                    Margin="0,20,0,0">
+
+                <VerticalStackLayout>
+                    <Label x:Name="CreateHeader"
+                           Text="Create Account"
+                           HorizontalOptions="Center"
+                           FontSize="30"/>
+
+                    <Entry x:Name="CreateUsername"
+                           Placeholder="Username"/>
+
+                    <Entry x:Name="CreatePassword"
+                           Placeholder="Password"
+                           IsPassword="True"/>
+
+                    <Entry x:Name="ConfirmPassword"
+                           Placeholder="Confirm Password"
+                           IsPassword="True"/>
+
+                    <Button Text="Create Account"
+                            Clicked="CreateAccountTapped"
+                            Margin="0,0,0,10"
+                            BackgroundColor="DarkGreen"/>
+                    
+                    <Button Text="Cancel"
+                            Clicked="CancelCreateForm"
+                            BackgroundColor="DarkGreen"/>
+                </VerticalStackLayout>
+                
+            </Border>
+            
             <Label Text="Login"
                    FontAttributes="Bold"
                    FontSize="35"
@@ -23,6 +60,12 @@
                     Text="Login"
                     BackgroundColor="DarkGreen"
                     Clicked="LoginButton"/>
+
+            <Button x:Name="CreateAccount"
+                    Text="Create Account"
+                    TextColor="DarkGreen"
+                    BackgroundColor="Transparent"
+                    Clicked="ShowForm"/>
 
             <Label x:Name="ErrorLabel" TextColor="Red"/>
         </VerticalStackLayout>

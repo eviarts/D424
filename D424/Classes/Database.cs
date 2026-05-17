@@ -53,10 +53,41 @@ namespace D424.Classes
 
         public async Task DbInitAsync()
         {
+            await _database.CreateTableAsync<Users>();
             await _database.CreateTableAsync<Terms>();
             await _database.CreateTableAsync<Courses>();
             await _database.CreateTableAsync<Assessments>();
-        }       
+        }   
+        
+        public async Task<bool> CreateAccount(string username, string password)
+        {
+            var existingAccount = await _database.Table<Users>()
+                                .Where(u => u.Username == username)
+                                .FirstOrDefaultAsync();
+
+            if (existingAccount != null)
+            {
+                return false;
+            }
+
+            Users user = new Users
+            {
+                Username = username,
+                Password = password
+            };
+            await _database.InsertAsync(user);
+
+            return true;
+        }
+
+        public async Task<bool> Login(string username, string password)
+        {
+            var user = await _database.Table<Users>()
+                      .Where(u => u.Username == username && u.Password == password)
+                      .FirstOrDefaultAsync();
+
+            return user != null;
+        }
 
         public Task<int> SaveTermAsync(Terms term)
         {
